@@ -1,0 +1,167 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import { services } from '../../data/services';
+import { site } from '../../config/site';
+
+// Génère une page statique par service.
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const primaryPhone = site.phones[0];
+
+const others = services.filter((s) => s.slug !== service.slug);
+
+const title = `${service.title} en Ariège (09) — LBB BOIS`;
+const description = `${service.summary} LBB BOIS intervient à Niaux et dans tout le secteur de l’Ariège. Devis gratuit.`;
+---
+
+<BaseLayout title={title} description={description} path={`/services/${service.slug}`}>
+  <nav class="breadcrumb" aria-label="Fil d’Ariane">
+    <div class="container">
+      <a href="/">Accueil</a>
+      <span aria-hidden="true">›</span>
+      <a href="/#services">Services</a>
+      <span aria-hidden="true">›</span>
+      <span aria-current="page">{service.title}</span>
+    </div>
+  </nav>
+
+  <article class="section service">
+    <div class="container service__grid">
+      <div class="service__body">
+        <span class="eyebrow">Nos services</span>
+        <h1>{service.title}</h1>
+        <p class="lead">{service.summary}</p>
+        {service.description.map((p) => <p>{p}</p>)}
+
+        <h2 class="service__subtitle">Ce que nous proposons</h2>
+        <ul class="checklist">
+          {service.features.map((f) => <li>{f}</li>)}
+        </ul>
+
+        <div class="service__actions">
+          <a class="btn btn--primary" href={`tel:${primaryPhone.tel}`}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Demander un devis
+          </a>
+          <a class="btn btn--ghost" href="/#services">Voir tous les services</a>
+        </div>
+      </div>
+
+      <aside class="service__aside">
+        <Image src={service.image} alt={service.imageAlt} width={640} height={480} widths={[320, 480, 640]} sizes="(max-width: 900px) 90vw, 420px" class="service__img" />
+        <div class="service__others">
+          <h2>Autres prestations</h2>
+          <ul>
+            {others.map((s) => (
+              <li>
+                <a href={`/services/${s.slug}`}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  {s.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </article>
+
+  <ContactCta />
+</BaseLayout>
+
+<style>
+  .breadcrumb {
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+  .breadcrumb .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    padding-block: 0.8rem;
+  }
+  .breadcrumb span[aria-hidden] {
+    color: var(--muted);
+  }
+  .breadcrumb [aria-current] {
+    color: var(--muted);
+  }
+
+  .service__grid {
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: clamp(1.6rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+  .service__subtitle {
+    margin-top: 2rem;
+    font-size: 1.35rem;
+  }
+  .service__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+  .service__aside {
+    position: sticky;
+    top: 90px;
+    display: grid;
+    gap: 1.6rem;
+  }
+  .service__img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+  .service__others {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem 1.5rem;
+  }
+  .service__others h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.9rem;
+  }
+  .service__others ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .service__others a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+    color: var(--green-800);
+  }
+  .service__others svg {
+    width: 1em;
+    height: 1em;
+    color: var(--yellow-600);
+    flex: none;
+  }
+  @media (max-width: 900px) {
+    .service__grid {
+      grid-template-columns: 1fr;
+    }
+    .service__aside {
+      position: static;
+    }
+  }
+</style>

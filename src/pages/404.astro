@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { services } from '../data/services';
+import { site } from '../config/site';
+
+const primaryPhone = site.phones[0];
+---
+
+<BaseLayout
+  title="Page introuvable — LBB BOIS"
+  description="La page demandée n’existe pas. Retrouvez nos services de travaux forestiers en Ariège."
+  path="/404"
+>
+  <section class="section" style="text-align:center">
+    <div class="container" style="max-width:640px">
+      <span class="eyebrow">Erreur 404</span>
+      <h1>Cette page n’existe pas</h1>
+      <p class="lead">
+        La page que vous cherchez a peut-être été déplacée. Revenez à l’accueil
+        ou découvrez nos services.
+      </p>
+      <p style="margin-top:2rem;display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn--primary" href="/">Retour à l’accueil</a>
+        <a class="btn btn--ghost" href={`tel:${primaryPhone.tel}`}>{primaryPhone.display}</a>
+      </p>
+      <ul style="list-style:none;padding:0;margin:2.5rem 0 0;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+        {services.map((s) => (
+          <li><a href={`/services/${s.slug}`}>{s.title}</a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

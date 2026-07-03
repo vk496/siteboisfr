@@ -1,0 +1,213 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import { site } from '../config/site';
+import { services } from '../data/services';
+
+const primaryPhone = site.phones[0];
+const nav = [
+  { label: 'Accueil', href: '/#accueil' },
+  { label: 'Services', href: '/#services' },
+  { label: 'À propos', href: '/#a-propos' },
+  { label: 'Zone d’intervention', href: '/#zone' },
+  { label: 'Contact', href: '/#contact' },
+];
+---
+
+<header class="site-header" id="haut">
+  <div class="container site-header__inner">
+    <a class="brand" href="/" aria-label={`${site.name} — accueil`}>
+      <Image src={logo} alt={`Logo ${site.legalName}`} width={132} height={132} class="brand__logo" loading="eager" />
+      <span class="brand__text">
+        <span class="brand__name">{site.name}</span>
+        <span class="brand__tag">Travaux forestiers · Ariège</span>
+      </span>
+    </a>
+
+    <nav class="nav" id="menu" aria-label="Navigation principale">
+      <ul class="nav__list">
+        {nav.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a class="btn btn--primary header-call" href={`tel:${primaryPhone.tel}`}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span class="header-call__text">{primaryPhone.display}</span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Ouvrir le menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 68px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    margin-right: auto;
+  }
+  .brand__logo {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+  }
+  .brand__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .brand__name {
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--green-800);
+    letter-spacing: -0.01em;
+  }
+  .brand__tag {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .nav__list {
+    display: flex;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav__list a {
+    display: block;
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.98rem;
+  }
+  .nav__list a:hover {
+    background: var(--green-50);
+    color: var(--green-700);
+    text-decoration: none;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .header-call {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    margin-inline: auto;
+    background: var(--green-800);
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .nav-toggle[aria-expanded='true'] span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav-toggle[aria-expanded='true'] span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle[aria-expanded='true'] span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 860px) {
+    .nav {
+      position: fixed;
+      inset: 68px 0 auto 0;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow-md);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease;
+    }
+    .nav.is-open {
+      max-height: 70vh;
+    }
+    .nav__list {
+      flex-direction: column;
+      gap: 0;
+      padding: 0.5rem clamp(1rem, 4vw, 2rem) 1rem;
+    }
+    .nav__list a {
+      padding: 0.9rem 0.6rem;
+      border-bottom: 1px solid var(--line);
+      font-size: 1.05rem;
+    }
+    .nav-toggle {
+      display: flex;
+    }
+    .header-call__text {
+      display: none;
+    }
+    .header-call {
+      padding: 0.6rem;
+    }
+  }
+  @media (max-width: 380px) {
+    .brand__tag {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('menu');
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const open = menu.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    });
+    // Referme le menu après un clic sur un lien (navigation par ancre).
+    menu.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => {
+        menu.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }),
+    );
+  }
+</script>
