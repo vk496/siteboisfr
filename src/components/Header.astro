@@ -194,9 +194,14 @@ const nav = [
 </style>
 
 <script>
-  const toggle = document.getElementById('nav-toggle');
-  const menu = document.getElementById('menu');
-  if (toggle && menu) {
+  // Réinitialise le menu mobile à chaque chargement de page.
+  // `astro:page-load` se déclenche au premier affichage ET après chaque
+  // navigation (View Transitions), ce qui garantit que le bouton reste actif.
+  function initNav() {
+    const toggle = document.getElementById('nav-toggle');
+    const menu = document.getElementById('menu');
+    if (!toggle || !menu) return;
+
     toggle.addEventListener('click', () => {
       const open = menu.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', String(open));
@@ -210,4 +215,6 @@ const nav = [
       }),
     );
   }
+
+  document.addEventListener('astro:page-load', initNav);
 </script>
