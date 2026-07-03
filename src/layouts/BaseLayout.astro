@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import { site, addressLine } from '../config/site';
 
 export interface Props {
@@ -14,9 +15,27 @@ export interface Props {
   path?: string;
   /** Image Open Graph absolue ou relative (défaut : logo) */
   ogImage?: string;
+  /** Empêcher l'indexation de cette page (ex. page 404) */
+  noindex?: boolean;
+  /** Données structurées supplémentaires (schema.org) à injecter */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, path = '/', ogImage = '/logo-og.png' } = Astro.props;
+const {
+  title,
+  description,
+  path = '/',
+  ogImage = '/logo-og.png',
+  noindex = false,
+  jsonLd: extraJsonLd,
+} = Astro.props;
+
+const verification = site.seo.googleSiteVerification;
+const extraSchemas = extraJsonLd
+  ? Array.isArray(extraJsonLd)
+    ? extraJsonLd
+    : [extraJsonLd]
+  : [];
 
 const canonical = new URL(path, site.url).href;
 const ogImageUrl = new URL(ogImage, site.url).href;
@@ -69,14 +88,20 @@ const jsonLd = {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta name="theme-color" content="#226b2f" />
-    <meta name="robots" content="index, follow" />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'}
+    />
     <meta name="geo.region" content={`FR-${site.address.regionCode}`} />
     <meta name="geo.placename" content={site.address.city} />
+    {verification && <meta name="google-site-verification" content={verification} />}
 
-    <!-- Icônes -->
+    <!-- Icônes & manifeste -->
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
     <!-- Open Graph / réseaux sociaux -->
     <meta property="og:type" content="website" />
@@ -96,6 +121,9 @@ const jsonLd = {
     <ClientRouter />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {extraSchemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
   </head>
   <body>
     <a class="skip-link" href="#contenu">Aller au contenu principal</a>
@@ -104,5 +132,6 @@ const jsonLd = {
       <slot />
     </main>
     <Footer />
+    <CookieConsent />
   </body>
 </html>

@@ -74,9 +74,36 @@ et cochez **Enforce HTTPS**.
 ## Référencement (SEO) — déjà en place
 
 - Balises `<title>` / `<meta description>` uniques par page, en français
-- Données structurées **schema.org LocalBusiness** (adresse, téléphone, zone)
-- URL canoniques, Open Graph, `robots.txt`, `sitemap.xml` automatique
-- Site rapide (statique, zéro JS superflu) et 100 % responsive (mobile-first)
+- Données structurées **schema.org** : `LocalBusiness` (adresse, téléphone,
+  zone) + `BreadcrumbList` et `Service` sur les pages de prestations
+- URL canoniques, Open Graph, `robots.txt`, `sitemap.xml` (avec `lastmod`)
+- Manifeste web + favicons, `max-image-preview:large`, page 404 en `noindex`
+- Site rapide (statique, CSS en ligne, zéro JS superflu), 100 % responsive
+
+### Référencer le site sur Google (Search Console)
+
+1. Créez la propriété sur [Google Search Console](https://search.google.com/search-console)
+   pour `https://boisforestier.fr`.
+2. Méthode de validation **« balise HTML »** : copiez la valeur de l’attribut
+   `content` fournie et collez-la dans `seo.googleSiteVerification`
+   (`src/config/site.ts`), puis poussez sur `main`. La balise
+   `google-site-verification` est alors ajoutée automatiquement.
+3. Cliquez sur **Valider**.
+4. Dans **Sitemaps**, soumettez : `https://boisforestier.fr/sitemap.xml`.
+
+### Statistiques + bannière cookies (Google Analytics)
+
+Le consentement est **déjà géré** et **conforme CNIL / RGPD** :
+
+- Renseignez votre identifiant GA4 (`G-XXXXXXXXXX`) dans
+  `analytics.googleAnalyticsId` (`src/config/site.ts`).
+- Dès qu’il est renseigné : une bannière de consentement apparaît, et Google
+  Analytics n’est chargé **qu’après un clic sur « Accepter »** (« Refuser » est
+  tout aussi accessible). Le visiteur peut changer d’avis via le lien
+  **« Gestion des cookies »** en pied de page.
+- Tant que le champ reste **vide** : aucune bannière, aucun cookie, aucun script
+  de suivi (le site reste « sans cookie »).
+- La page *Mentions légales* adapte automatiquement son paragraphe « Cookies ».
 
 ## À vérifier / ajuster
 

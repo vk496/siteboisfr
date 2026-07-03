@@ -1,0 +1,153 @@
+---
+/**
+ * Bannière de consentement aux cookies (mesure d'audience).
+ * ------------------------------------------------------------------
+ * - Ne s'affiche QUE si un identifiant Google Analytics est configuré
+ *   dans src/config/site.ts (analytics.googleAnalyticsId).
+ * - Google Analytics n'est chargé qu'APRÈS un clic sur « Accepter »
+ *   (consentement préalable, conforme CNIL / RGPD).
+ * - « Refuser » est aussi accessible que « Accepter ».
+ * - Le choix est mémorisé ; il peut être modifié via le lien
+ *   « Gestion des cookies » du pied de page (window.openCookieSettings()).
+ */
+import { site } from '../config/site';
+
+const gaId = site.analytics.googleAnalyticsId;
+---
+
+{gaId && (
+  <aside
+    id="cookie-banner"
+    class="cookie-banner"
+    data-ga-id={gaId}
+    hidden
+    role="dialog"
+    aria-live="polite"
+    aria-label="Consentement aux cookies"
+  >
+    <div class="cookie-banner__inner">
+      <p class="cookie-banner__text">
+        Ce site utilise des cookies de mesure d’audience (Google Analytics) pour
+        comprendre sa fréquentation et l’améliorer. Vous pouvez les accepter ou
+        les refuser. <a href="/mentions-legales">En savoir plus</a>.
+      </p>
+      <div class="cookie-banner__actions">
+        <button type="button" id="cookie-refuse" class="btn btn--ghost">Refuser</button>
+        <button type="button" id="cookie-accept" class="btn btn--primary">Accepter</button>
+      </div>
+    </div>
+  </aside>
+
+  <script is:inline>
+    (function () {
+      var KEY = 'lbb-consent-v1';
+      function banner() { return document.getElementById('cookie-banner'); }
+      function gaId() { var b = banner(); return b ? b.getAttribute('data-ga-id') : ''; }
+      function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+      function save(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+
+      function loadGA() {
+        if (window.__lbbGA) return;
+        var id = gaId();
+        if (!id) return;
+        window.__lbbGA = true;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        // send_page_view:false -> on envoie nous-mêmes une vue par page,
+        // y compris lors des navigations « View Transitions ».
+        window.gtag('config', id, { send_page_view: false, anonymize_ip: true });
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+        document.head.appendChild(s);
+      }
+      function pageview() {
+        if (!window.gtag) return;
+        window.gtag('event', 'page_view', {
+          page_location: location.href,
+          page_path: location.pathname,
+          page_title: document.title,
+        });
+      }
+      function show() { var b = banner(); if (b) b.hidden = false; }
+      function hide() { var b = banner(); if (b) b.hidden = true; }
+      function choose(v) {
+        save(v);
+        hide();
+        if (v === 'granted') { loadGA(); pageview(); }
+      }
+
+      // Permet de rouvrir la bannière (lien « Gestion des cookies »).
+      window.openCookieSettings = show;
+
+      function onPage() {
+        var a = document.getElementById('cookie-accept');
+        var r = document.getElementById('cookie-refuse');
+        if (a) a.onclick = function () { choose('granted'); };
+        if (r) r.onclick = function () { choose('denied'); };
+
+        var c = get();
+        if (!c) {
+          show(); // pas encore de choix -> demander le consentement
+        } else if (c === 'granted') {
+          hide();
+          loadGA();
+          pageview(); // une vue par page (navigation incluse)
+        } else {
+          hide();
+        }
+      }
+
+      // astro:page-load se déclenche au 1er affichage ET à chaque navigation.
+      if (!window.__lbbConsentBound) {
+        window.__lbbConsentBound = true;
+        document.addEventListener('astro:page-load', onPage);
+      }
+    })();
+  </script>
+
+  <style>
+    .cookie-banner {
+      position: fixed;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 300;
+      background: #fff;
+      color: var(--body);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      max-width: 720px;
+      margin-inline: auto;
+    }
+    .cookie-banner[hidden] { display: none; }
+    .cookie-banner__inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.9rem 1.4rem;
+      padding: 1rem 1.2rem;
+    }
+    .cookie-banner__text {
+      margin: 0;
+      flex: 1 1 260px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    .cookie-banner__actions {
+      display: flex;
+      gap: 0.6rem;
+      flex: 0 0 auto;
+    }
+    .cookie-banner__actions .btn {
+      padding: 0.6rem 1.1rem;
+      font-size: 0.92rem;
+    }
+    @media (max-width: 480px) {
+      .cookie-banner__actions { width: 100%; }
+      .cookie-banner__actions .btn { flex: 1; }
+    }
+  </style>
+)}

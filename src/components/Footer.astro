@@ -3,6 +3,7 @@ import { site, addressLine, mapsUrl } from '../config/site';
 import { services } from '../data/services';
 
 const year = 2025;
+const hasAnalytics = Boolean(site.analytics.googleAnalyticsId);
 ---
 
 <footer class="site-footer">
@@ -41,7 +42,14 @@ const year = 2025;
   <div class="site-footer__bar">
     <div class="container site-footer__bar-inner">
       <p>© {year} {site.legalName} — Tous droits réservés.</p>
-      <a href="/mentions-legales">Mentions légales</a>
+      <span class="foot-legal-links">
+        <a href="/mentions-legales">Mentions légales</a>
+        {hasAnalytics && (
+          <button type="button" class="foot-cookies" onclick="window.openCookieSettings && window.openCookieSettings()">
+            Gestion des cookies
+          </button>
+        )}
+      </span>
     </div>
   </div>
 </footer>
@@ -124,6 +132,24 @@ const year = 2025;
     color: #8fa891;
   }
   .site-footer__bar-inner a:hover {
+    color: var(--yellow-500);
+  }
+  .foot-legal-links {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.2rem;
+    align-items: center;
+  }
+  .foot-cookies {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: #8fa891;
+    cursor: pointer;
+  }
+  .foot-cookies:hover {
     color: var(--yellow-500);
   }
   @media (max-width: 720px) {

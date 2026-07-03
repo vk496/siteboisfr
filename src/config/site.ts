@@ -80,6 +80,30 @@ export const site = {
     hebergeur:
       'GitHub, Inc. — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis (GitHub Pages).',
   },
+
+  /** Paramètres liés au référencement (SEO). */
+  seo: {
+    /**
+     * Code de validation Google Search Console (méthode « balise HTML »).
+     * Dans Search Console, choisissez la vérification par balise meta et
+     * collez ici UNIQUEMENT la valeur de l'attribut content
+     * (ex. 'AbCdEf123...'). Laisser vide si non utilisé.
+     */
+    googleSiteVerification: '',
+  },
+
+  /** Mesure d'audience. */
+  analytics: {
+    /**
+     * Identifiant Google Analytics 4 (ex. 'G-XXXXXXXXXX').
+     * TANT QUE CE CHAMP EST VIDE : aucun script de suivi n'est chargé et
+     * la bannière cookies ne s'affiche pas (le site ne dépose alors aucun
+     * cookie non essentiel). Dès qu'un identifiant est renseigné, la
+     * bannière de consentement apparaît et Google Analytics n'est chargé
+     * qu'APRÈS acceptation (conforme aux règles CNIL / RGPD).
+     */
+    googleAnalyticsId: '',
+  },
 } as const;
 
 /** Adresse sur une seule ligne, pratique pour l'affichage. */

@@ -10,11 +10,14 @@ export const GET: APIRoute = () => {
     '/mentions-legales',
   ];
 
+  // Date de dernière mise à jour (date du build).
+  const lastmod = new Date().toISOString().split('T')[0];
+
   const urls = paths
     .map((path) => {
       const loc = new URL(path, site.url).href;
       const priority = path === '/' ? '1.0' : path.startsWith('/services') ? '0.8' : '0.4';
-      return `  <url>\n    <loc>${loc}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+      return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
     })
     .join('\n');
 

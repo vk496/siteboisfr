@@ -10,6 +10,7 @@ const legal = site.legal;
 const incomplete = [legal.capital, legal.hebergeur].some((v) =>
   v.startsWith('À compléter'),
 );
+const hasAnalytics = Boolean(site.analytics.googleAnalyticsId);
 ---
 
 <BaseLayout title={title} description={description} path="/mentions-legales">
@@ -64,9 +65,20 @@ const incomplete = [legal.capital, legal.hebergeur].some((v) =>
       </p>
 
       <h2>Cookies</h2>
-      <p>
-        Ce site ne dépose pas de cookie de suivi ni de traceur publicitaire.
-      </p>
+      {hasAnalytics ? (
+        <p>
+          Ce site utilise Google Analytics pour mesurer son audience. Ces
+          cookies de mesure ne sont déposés qu’après votre consentement,
+          recueilli via la bannière affichée lors de votre première visite.
+          Vous pouvez à tout moment modifier votre choix grâce au lien
+          « Gestion des cookies » présent en bas de page. Aucun cookie
+          publicitaire n’est utilisé.
+        </p>
+      ) : (
+        <p>
+          Ce site ne dépose pas de cookie de suivi ni de traceur publicitaire.
+        </p>
+      )}
 
       <p class="legal-back"><a href="/">← Retour à l’accueil</a></p>
     </div>
