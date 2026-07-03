@@ -29,7 +29,7 @@ export const site = {
     { display: '06 10 54 54 03', tel: '+33610545403' },
   ] as Phone[],
 
-  email: 'contact@boisforestier.fr',
+  email: 'lbb.bois@outlook.fr',
 
   address: {
     street: '3 Quartier la Pujade',
