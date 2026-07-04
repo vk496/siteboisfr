@@ -3,8 +3,12 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import ContactCta from '../components/ContactCta.astro';
+import WhyUs from '../components/WhyUs.astro';
+import Debroussaillement from '../components/Debroussaillement.astro';
+import Faq from '../components/Faq.astro';
 import { site, addressLine, mapsUrl } from '../config/site';
 import { services } from '../data/services';
+import { faq } from '../data/faq';
 
 import heroImg from '../assets/photos/hero-abattage-foret.jpg';
 import aboutImg from '../assets/photos/equipe-lbb-bois.jpg';
@@ -43,9 +47,20 @@ const primaryPhone = site.phones[0];
 const title = 'LBB BOIS — Abattage, bois de chauffage, élagage & entretien en Ariège';
 const description =
   'LBB BOIS, entreprise de travaux forestiers en Ariège (09) : abattage, débardage, bois de chauffage, élagage et entretien de parc et jardin. Devis gratuit à Niaux et alentours.';
+
+// Données structurées FAQPage (résultats enrichis Google).
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
 ---
 
-<BaseLayout title={title} description={description} path="/">
+<BaseLayout title={title} description={description} path="/" jsonLd={faqLd}>
   <!-- ===================== HERO ===================== -->
   <section class="hero" id="accueil">
     <Image class="hero__bg" src={heroImg} alt="" width={1600} height={900} loading="eager" fetchpriority="high" aria-hidden="true" />
@@ -72,6 +87,9 @@ const description =
       </ul>
     </div>
   </section>
+
+  <!-- ===================== POURQUOI NOUS CHOISIR ===================== -->
+  <WhyUs />
 
   <!-- ===================== SERVICES ===================== -->
   <section class="section" id="services">
@@ -121,6 +139,9 @@ const description =
     </div>
   </section>
 
+  <!-- ===================== DÉBROUSSAILLEMENT (OLD) ===================== -->
+  <Debroussaillement />
+
   <!-- ===================== ZONE D'INTERVENTION ===================== -->
   <section class="section" id="zone">
     <div class="container">
@@ -160,6 +181,9 @@ const description =
       </div>
     </div>
   </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <Faq />
 
   <!-- ===================== CONTACT ===================== -->
   <ContactCta />

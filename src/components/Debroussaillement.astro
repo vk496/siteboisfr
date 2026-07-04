@@ -1,0 +1,114 @@
+---
+import { site } from '../config/site';
+const primaryPhone = site.phones[0];
+---
+
+<section class="section old" id="debroussaillement" aria-labelledby="old-title">
+  <div class="container old__grid">
+    <div class="old__text">
+      <span class="eyebrow">Obligation légale de débroussaillement (OLD)</span>
+      <h2 id="old-title">Débroussaillement réglementaire en Ariège</h2>
+      <p class="lead">
+        Dans les zones exposées au risque incendie, le débroussaillement est une
+        <strong>obligation légale</strong> pour les propriétaires. LBB BOIS
+        réalise ces travaux et vous met en conformité.
+      </p>
+      <ul class="checklist">
+        <li>Débroussaillement sur un rayon d’environ <strong>50 m</strong> autour des constructions</li>
+        <li>Idéalement réalisé <strong>avant l’été</strong> (échéance souvent au 30 juin)</li>
+        <li>Non-conformité : amende pouvant atteindre <strong>30 € / m²</strong> non débroussaillé</li>
+        <li>Une assurance peut refuser d’indemniser en cas de sinistre si l’OLD n’est pas respectée</li>
+      </ul>
+      <a class="btn btn--primary" href={`tel:${primaryPhone.tel}`}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Demander un devis débroussaillement
+      </a>
+      <p class="old__note">
+        Informations données à titre indicatif — renseignez-vous auprès de votre
+        mairie pour les règles applicables à votre parcelle.
+      </p>
+    </div>
+    <aside class="old__card" aria-hidden="true">
+      <div class="old__badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s7 3 7 9c0 4-3 7-7 11-4-4-7-7-7-11 0-6 7-9 7-9z"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <p class="old__big">50 m</p>
+      <p class="old__small">zone à débroussailler autour du bâti en zone à risque</p>
+      <hr />
+      <p class="old__big old__big--warn">30 €/m²</p>
+      <p class="old__small">amende encourue en cas de non-respect</p>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .old {
+    background: linear-gradient(160deg, var(--green-50), #fff);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .old__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr;
+    gap: clamp(1.6rem, 4vw, 3rem);
+    align-items: center;
+  }
+  .old__text .checklist {
+    margin-block: 1.2rem 1.6rem;
+  }
+  .old__note {
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .old__card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 1.6rem;
+    text-align: center;
+  }
+  .old__badge {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 0.8rem;
+    border-radius: 14px;
+    background: var(--green-700);
+    color: var(--yellow-500);
+    display: grid;
+    place-items: center;
+  }
+  .old__badge svg {
+    width: 28px;
+    height: 28px;
+  }
+  .old__big {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--green-800);
+    margin: 0;
+    line-height: 1;
+  }
+  .old__big--warn {
+    color: #b23b1e;
+  }
+  .old__small {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: 0.3rem 0 0;
+  }
+  .old__card hr {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 1.1rem 0;
+  }
+  @media (max-width: 760px) {
+    .old__grid {
+      grid-template-columns: 1fr;
+    }
+    .old__card {
+      max-width: 340px;
+    }
+  }
+</style>

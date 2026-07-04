@@ -1,0 +1,80 @@
+---
+// Arguments de réassurance (tous vérifiables / non trompeurs).
+const points = [
+  {
+    title: 'Devis gratuit',
+    text: 'Déplacement et devis sans engagement, réponse rapide.',
+    icon: 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z',
+  },
+  {
+    title: 'Entreprise locale',
+    text: 'Basés à Niaux, une vraie connaissance du terrain ariégeois.',
+    icon: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0zM12 8a2 2 0 100 4 2 2 0 000-4z',
+  },
+  {
+    title: 'Matériel professionnel',
+    text: 'Tracteur, treuil et techniques adaptés à chaque chantier.',
+    icon: 'M14.7 6.3a4 4 0 00-5.6 5.6l-6.4 6.4a2 2 0 102.8 2.8l6.4-6.4a4 4 0 005.6-5.6l-2.5 2.5-2.1-2.1 2.3-2.7z',
+  },
+  {
+    title: 'Intervention en sécurité',
+    text: 'Travail soigné, y compris en urgence après une tempête.',
+    icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+  },
+];
+---
+
+<section class="section why" aria-label="Pourquoi nous choisir">
+  <div class="container why__grid">
+    {points.map((p) => (
+      <div class="why__item">
+        <span class="why__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={p.icon} /></svg>
+        </span>
+        <div>
+          <h3 class="why__title">{p.title}</h3>
+          <p class="why__text">{p.text}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .why {
+    padding-block: clamp(2rem, 5vw, 3rem);
+  }
+  .why__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+  }
+  .why__item {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+  }
+  .why__icon {
+    flex: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: var(--green-100);
+    color: var(--green-700);
+    display: grid;
+    place-items: center;
+  }
+  .why__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  .why__title {
+    font-size: 1.05rem;
+    margin: 0.15rem 0 0.2rem;
+  }
+  .why__text {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+import { faq } from '../data/faq';
+---
+
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-head center">
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2>Vous vous posez une question&nbsp;?</h2>
+      <p class="lead">
+        Les réponses aux questions que l’on nous pose le plus souvent. Une autre
+        question&nbsp;? Appelez-nous, nous vous renseignons avec plaisir.
+      </p>
+    </div>
+    <div class="faq">
+      {faq.map((item, i) => (
+        <details class="faq__item" open={i === 0}>
+          <summary class="faq__q">
+            <span>{item.q}</span>
+            <svg class="faq__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <p class="faq__a">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    max-width: 820px;
+    margin-inline: auto;
+    display: grid;
+    gap: 0.8rem;
+  }
+  .faq__item {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .faq__item[open] {
+    border-color: var(--green-600);
+    box-shadow: var(--shadow-sm);
+  }
+  .faq__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    list-style: none;
+    font-size: 1.02rem;
+  }
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+  .faq__chevron {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: var(--green-700);
+    flex: none;
+    transition: transform 0.2s ease;
+  }
+  .faq__item[open] .faq__chevron {
+    transform: rotate(180deg);
+  }
+  .faq__a {
+    margin: 0;
+    padding: 0 1.2rem 1.2rem;
+    color: var(--body);
+  }
+</style>

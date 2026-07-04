@@ -101,11 +101,12 @@ export const services: Service[] = [
       'Entretien d’espaces verts : débroussaillage, tonte, taille de haies et nettoyage de terrain.',
     description: [
       'Nous entretenons vos parcs, jardins et terrains : débroussaillage, tonte, taille de haies, nettoyage et évacuation des déchets verts.',
-      'Que ce soit pour un entretien ponctuel ou régulier, nous remettons en état les terrains embroussaillés et gardons vos espaces extérieurs propres et accueillants.',
-      'Nous adaptons nos interventions aux terrains difficiles et en pente, fréquents dans notre secteur de montagne.',
+      'Nous réalisons également le débroussaillement réglementaire (OLD) pour vous mettre en conformité avec vos obligations légales dans les zones exposées au risque incendie, fréquentes en Ariège.',
+      'Que ce soit pour un entretien ponctuel ou régulier, nous remettons en état les terrains embroussaillés et gardons vos espaces extérieurs propres et accueillants, y compris sur les terrains difficiles et en pente.',
     ],
     features: [
       'Débroussaillage et nettoyage de terrain',
+      'Débroussaillement réglementaire (OLD)',
       'Tonte et entretien de pelouse',
       'Taille de haies et arbustes',
       'Évacuation des déchets verts',

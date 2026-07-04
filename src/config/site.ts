@@ -58,6 +58,13 @@ export const site = {
   social: {
     instagramHandle: '@lbb_bois',
     instagramUrl: 'https://www.instagram.com/lbb_bois/',
+    /**
+     * Lien vers la fiche Google Business Profile (pour laisser un avis).
+     * À créer sur https://business.google.com puis coller ici le lien
+     * « Rédiger un avis ». Laisser vide tant que la fiche n'existe pas :
+     * le bouton « Avis Google » n'apparaît alors pas.
+     */
+    googleReviewUrl: '',
   },
 
   /** Horaires indicatifs (modifiez selon la réalité de l'entreprise) */
